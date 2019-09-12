@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export OMERODIR="${CONDA_PREFIX}/opt/omero/server/OMERO.server"
+omero "$@"

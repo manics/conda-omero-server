@@ -1,0 +1,48 @@
+{% set name = "omero-server" %}
+{% set version = "5.5.1" %}
+{% set omero_build = "122" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}{{ environ.get('VERSION_SUFFIX', '') }}"
+
+source:
+  url: https://downloads.openmicroscopy.org/omero/{{ version }}/artifacts/OMERO.server-{{ version }}-ice36-b{{ omero_build }}.zip
+  sha256: e097ad45ebd275dfc4795b479ad4be36567a11d53be726e16325c159e814012c
+
+build:
+  noarch: generic
+  number: 0
+  script_env:
+    - VERSION_SUFFIX
+
+requirements:
+  run:
+    - numpy
+    - omero-py=5.5
+    - openjdk=8
+    - pillow
+    # postgresql=10 is linked against an older openssl which conflicts with other packages
+    - postgresql=11
+    - pytables
+    - python
+    - pyyaml
+    - zeroc-ice-bin=3.6.5
+    - zeroc-ice-python=3.6.5
+
+test:
+  commands:
+    - omero-server version
+    # - omero-server admin diagnostics
+
+about:
+  home: https://www.openmicroscopy.org/
+  license: GNU General Public v2 (GPLv2)
+  license_family: GPL2
+  summary: OMERO server
+  doc_url: https://docs.openmicroscopy.org/latest/omero/
+  dev_url: https://github.com/ome/openmicroscopy
+
+extra:
+  recipe-maintainers:
+    - ome
