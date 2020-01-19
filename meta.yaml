@@ -1,6 +1,6 @@
 {% set name = "omero-server" %}
-{% set version = "5.5.1" %}
-{% set omero_build = "122" %}
+{% set version = "5.6.0" %}
+{% set omero_build = "136" %}
 
 package:
   name: "{{ name|lower }}"
@@ -8,8 +8,7 @@ package:
 
 source:
   url: https://downloads.openmicroscopy.org/omero/{{ version }}/artifacts/OMERO.server-{{ version }}-ice36-b{{ omero_build }}.zip
-  sha256: e097ad45ebd275dfc4795b479ad4be36567a11d53be726e16325c159e814012c
-
+  sha1: 83fde9edef3818afac3a86b973ab7301c24e3690
 build:
   noarch: generic
   number: 0
@@ -18,21 +17,20 @@ build:
 
 requirements:
   run:
-    - numpy
-    - omero-py=5.5
-    - openjdk=8
-    - pillow
+    - omero-py =5.6
+    - openjdk >=8
     # postgresql=10 is linked against an older openssl which conflicts with other packages
-    - postgresql=11
+    - postgresql =11
     - pytables
-    - python
+    - python =3
     - pyyaml
-    - zeroc-ice-bin=3.6.5
-    - zeroc-ice-python=3.6.5
+    - zeroc-ice36 =3.6.5
 
 test:
   commands:
     - omero-server version
+    - omero-server config get
+    - omero-server admin rewrite
     # - omero-server admin diagnostics
 
 about:
@@ -40,7 +38,9 @@ about:
   license: GNU General Public v2 (GPLv2)
   license_family: GPL2
   summary: OMERO server
-  doc_url: https://docs.openmicroscopy.org/latest/omero/
+  description: |
+    From the microscope to publication, OMERO handles all your images in a secure central repository.
+  doc_url: https://docs.openmicroscopy.org/omero/latest/sysadmins/index.html
   dev_url: https://github.com/ome/openmicroscopy
 
 extra:

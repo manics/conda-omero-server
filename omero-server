@@ -1,4 +1,39 @@
-#!/bin/sh
+#!/usr/bin/env python
 
-export OMERODIR="${CONDA_PREFIX}/opt/omero/server/OMERO.server"
-omero "$@"
+import os
+import subprocess
+import sys
+
+
+def run(*args, **kwargs):
+    return subprocess.run(*args, **kwargs)
+
+
+omerodir = os.getenv('OMERODIR')
+if not omerodir:
+    omerodir = os.path.join(
+        os.environ['CONDA_PREFIX'], 'opt/omero/server/OMERO.server')
+    os.environ['OMERODIR'] = omerodir
+configdir = os.path.join(os.path.dirname(omerodir), 'config')
+
+server_commands = (
+    'start',
+    'stop',
+    'restart',
+    'status',
+)
+args = sys.argv[1:]
+if args and args[0] in server_commands:
+    if args[0] == 'start':
+        if os.path.isdir(configdir):
+            p = run(['omero', 'load', '--glob',
+                     os.path.join(configdir, '*.omero')], check=True)
+    p = run(['omero', 'admin'] + args)
+elif args and args[0] in ('help', '--help'):
+    print('Built in commands:\n  {}'.format(server_commands))
+    print('All other commands are passed to omero executable\n')
+    p = run(['omero', '--help'])
+else:
+    p = run(['omero'] + args)
+
+sys.exit(p.returncode)
