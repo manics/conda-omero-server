@@ -17,6 +17,7 @@ build:
 
 requirements:
   run:
+    - omero-dropbox =5.6
     - omero-py =5.6
     - openjdk >=8
     # postgresql=10 is linked against an older openssl which conflicts with other packages
