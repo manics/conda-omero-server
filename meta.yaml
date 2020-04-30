@@ -1,6 +1,6 @@
 {% set name = "omero-server" %}
-{% set version = "5.6.0" %}
-{% set omero_build = "136" %}
+{% set version = "5.6.1" %}
+{% set omero_build = "225" %}
 
 package:
   name: "{{ name|lower }}"
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://downloads.openmicroscopy.org/omero/{{ version }}/artifacts/OMERO.server-{{ version }}-ice36-b{{ omero_build }}.zip
-  sha1: 83fde9edef3818afac3a86b973ab7301c24e3690
+  sha1: a3d85d2fa67e2e6478666e82affdc067092aa7c1
 build:
   noarch: generic
   number: 0
